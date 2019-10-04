@@ -8,7 +8,7 @@ eureka:
     service-url:
       defaultZone: http://localhost:10086/eureka
     register-with-eureka: false # 不会显示自己
-    fetch-registry: false # 不去拉取服务
+    fetch-registry: false # 不去拉取自己服务
   server:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 10000
