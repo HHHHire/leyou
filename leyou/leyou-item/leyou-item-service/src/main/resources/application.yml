@@ -4,13 +4,13 @@ spring:
   application:
     name: item-service
   datasource:
-    url: jdbc:mysql:///cloud
+    url: jdbc:mysql://127.0.0.1:3306/cloud
     username: root
     password: 123456
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:10086/eureka
+      defaultZone: http://127.0.0.1:10086/eureka
   instance:
     lease-renewal-interval-in-seconds: 5 # 心跳时间
     lease-expiration-duration-in-seconds: 15 # 过期时间
