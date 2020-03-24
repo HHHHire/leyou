@@ -9,7 +9,7 @@ import org.springframework.web.filter.CorsFilter;
 /**
  * @Author: ddh
  * @Date: 2019/10/4 20:17
- * @Description:
+ * @Description: 配置跨域
  */
 @Configuration
 public class LeyouCorsConfiguration {
@@ -18,7 +18,7 @@ public class LeyouCorsConfiguration {
         // 初始化cors
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // 允许跨域的域名，如果要携带cookie，不能写*，*；代表所有域名都可以跨域访问
+        // 允许跨域的域名，如果要携带cookie，不能写*。   * 代表所有域名都可以跨域访问
         configuration.addAllowedOrigin("http://manage.leyou.com");
         // 允许携带cookie
         configuration.setAllowCredentials(true);

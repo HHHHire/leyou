@@ -17,6 +17,12 @@ public class CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
+    /**
+     * 根据父节点的 id 查询子节点
+     *
+     * @param pid 父节点 id
+     * @return List<Category>
+     */
     public List<Category> queryCategoriesByPid(Long pid) {
         Category record = new Category();
         record.setParentId(pid);

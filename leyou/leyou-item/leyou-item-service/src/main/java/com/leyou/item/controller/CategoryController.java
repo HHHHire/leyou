@@ -26,17 +26,20 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
+    /**
+     * 通过父节点的 id 查找分类
+     * @param pid 父节点 id
+     * @return ResponseEntity
+     */
     @GetMapping("list")
     public ResponseEntity<List<Category>> queryCategoriesByPid(@RequestParam(value = "pid", defaultValue = "0") Long pid) {
         if (pid == null || pid < 0) {
-            // 参数不合法
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            // 400参数不合法
             return ResponseEntity.badRequest().build();
         }
         List<Category> categories = categoryService.queryCategoriesByPid(pid);
         if (CollectionUtils.isEmpty(categories)) {
             // 资源未找到
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             return ResponseEntity.notFound().build();
         }
         // 查询成功
