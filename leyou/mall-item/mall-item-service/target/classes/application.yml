@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: item-service
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/cloud
+    username: root
+    password: 123456
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 心跳时间
+    lease-expiration-duration-in-seconds: 15 # 过期时间
+mybatis:
+  type-aliases-package: com.mall.item.pojo
+
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enable: false
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMillisecond: 60000 # 熔断超时时长：10000ms
+ribbon:
+  ConnectTimeout: 60000 # 连接超时时间(ms)
+  ReadTimeout: 60000 # 通信超时时间(ms)

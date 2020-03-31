@@ -4,19 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.leyou.parent</groupId>
-    <artifactId>leyou</artifactId>
+    <groupId>com.mall.parent</groupId>
+    <artifactId>mall</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>leyou-registry</module>
-        <module>leyou-gateway</module>
-        <module>leyou-gateway</module>
-        <module>leyou-item</module>
-        <module>leyou-common</module>
+        <module>mall-registry</module>
+        <module>mall-gateway</module>
+        <module>mall-gateway</module>
+        <module>mall-item</module>
+        <module>mall-common</module>
+        <module>mall-upload</module>
+        <module>mall-search</module>
     </modules>
 
-    <name>leyou</name>
+    <name>mall</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
@@ -36,7 +38,7 @@
         <druid.starter.version>1.1.9</druid.starter.version>
         <mysql.version>5.1.32</mysql.version>
         <pageHelper.starter.version>1.2.3</pageHelper.starter.version>
-        <leyou.latest.version>1.0.0-SNAPSHOT</leyou.latest.version>
+        <mall.latest.version>1.0.0-SNAPSHOT</mall.latest.version>
         <fastDFS.client.version>1.26.1-RELEASE</fastDFS.client.version>
     </properties>
 
