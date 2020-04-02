@@ -5,10 +5,15 @@ spring:
     name: search-service
   data:
     elasticsearch:
-      cluster-nodes: 47.100.88.162:9300
+      cluster-nodes:
       cluster-name: elasticsearch
   jackson:
     default-property-inclusion: non_null # 返回的对象中不会包含值为空的属性
+  rabbitmq:
+    host:
+    virtual-host: /mall
+    username: mall
+    password: mall
 eureka:
   client:
     service-url:

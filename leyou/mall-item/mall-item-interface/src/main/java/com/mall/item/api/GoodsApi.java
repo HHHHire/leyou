@@ -2,6 +2,7 @@ package com.mall.item.api;
 
 import com.mall.common.pojo.PageResult;
 import com.mall.item.pojo.Sku;
+import com.mall.item.pojo.Spu;
 import com.mall.item.pojo.SpuDetail;
 import com.mall.item.vo.SpuVO;
 import org.springframework.http.ResponseEntity;
@@ -51,4 +52,13 @@ public interface GoodsApi {
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "rows", defaultValue = "5") Integer rows
     );
+
+    /**
+     * 根据spuId查询Spu
+     *
+     * @param id spuId
+     * @return R
+     */
+    @GetMapping("{id}")
+    Spu querySpuById(@PathVariable("id") Long id);
 }

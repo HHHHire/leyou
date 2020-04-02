@@ -51,4 +51,19 @@ public class SpecificationService {
         specParam.setSearching(searching);
         return paramMapper.select(specParam);
     }
+
+    /**
+     * 查询参数组和值(规格参数)
+     *
+     * @param cid 分类 id
+     * @return List<SpecGroup>
+     */
+    public List<SpecGroup> queryGroupsWithParam(Long cid) {
+        List<SpecGroup> specGroups = queryGroupsByCid(cid);
+        specGroups.forEach(specGroup -> {
+            List<SpecParam> params = queryParam(specGroup.getId(), null, null, null);
+            specGroup.setParams(params);
+        });
+        return specGroups;
+    }
 }

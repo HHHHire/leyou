@@ -2,7 +2,6 @@ package com.mall.search.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mall.common.pojo.PageResult;
 import com.mall.item.pojo.*;
 import com.mall.search.client.BrandClient;
 import com.mall.search.client.CategoryClient;
@@ -14,13 +13,14 @@ import com.mall.search.pojo.SearchResult;
 import com.mall.search.repository.GoodsRepository;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.elasticsearch.index.query.*;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.Operator;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.LongTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.query.FetchSourceFilter;
@@ -100,8 +100,9 @@ public class SearchService {
 
     /**
      * 构建布尔查询
-     * @param request
-     * @return
+     *
+     * @param request 请求参数
+     * @return BoolQueryBuilder
      */
     private BoolQueryBuilder buildBoolQueryBuilder(SearchRequest request) {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
@@ -177,9 +178,7 @@ public class SearchService {
         LongTerms terms = (LongTerms) aggregation;
 
         // 获取聚合中的桶
-        return terms.getBuckets().stream().map(bucket -> {
-            return brandClient.queryBrandById(bucket.getKeyAsNumber().longValue());
-        }).collect(Collectors.toList());
+        return terms.getBuckets().stream().map(bucket -> brandClient.queryBrandById(bucket.getKeyAsNumber().longValue())).collect(Collectors.toList());
     }
 
     /**
@@ -273,9 +272,11 @@ public class SearchService {
     }
 
     /**
+     * 将参数格式化区间
+     *
      * @param value
      * @param p
-     * @return
+     * @return String
      */
     private String chooseSegment(String value, SpecParam p) {
         double val = NumberUtils.toDouble(value);
@@ -304,5 +305,23 @@ public class SearchService {
         return result;
     }
 
+    /**
+     * 通过 spuId 创建或更新索引
+     *
+     * @param id spuId
+     */
+    public void save(Long id) throws IOException {
+        Spu spu = goodsClient.querySpuById(id);
+        Goods goods = buildGoods(spu);
+        goodsRepository.save(goods);
+    }
 
+    /**
+     * 通过 spuId 删除索引
+     *
+     * @param id spuId
+     */
+    public void delete(Long id) {
+        goodsRepository.deleteById(id);
+    }
 }

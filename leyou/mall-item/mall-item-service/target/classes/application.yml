@@ -7,6 +7,13 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/cloud
     username: root
     password: 123456
+  rabbitmq:
+    host: 47.100.88.162
+    virtual-host: /mall
+    username: mall
+    password: mall
+    template:
+      exchange: MALL.ITEM.EXCHANGE # 这里定义了交换机，就不用再在代码中指定了
 eureka:
   client:
     service-url:

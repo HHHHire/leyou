@@ -2,6 +2,7 @@ package com.mall.item.controller;
 
 import com.mall.common.pojo.PageResult;
 import com.mall.item.pojo.Sku;
+import com.mall.item.pojo.Spu;
 import com.mall.item.pojo.SpuDetail;
 import com.mall.item.service.GoodsService;
 import com.mall.item.vo.SpuVO;
@@ -50,6 +51,7 @@ public class GoodsController {
 
     /**
      * 新增商品
+     *
      * @param spuVO 参数实体类
      * @return R
      */
@@ -61,6 +63,7 @@ public class GoodsController {
 
     /**
      * 更新商品
+     *
      * @param spuVO 商品实体
      * @return R
      */
@@ -72,6 +75,7 @@ public class GoodsController {
 
     /**
      * 根据 spuId 查询 spuDetail
+     *
      * @param spuId spuId
      * @return R
      */
@@ -86,6 +90,7 @@ public class GoodsController {
 
     /**
      * 根据 spuId 查询 sku 集合
+     *
      * @param spuId spuId
      * @return R
      */
@@ -96,5 +101,20 @@ public class GoodsController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(skus);
+    }
+
+    /**
+     * 根据spuId查询Spu
+     *
+     * @param id spuId
+     * @return R
+     */
+    @GetMapping("{id}")
+    public ResponseEntity<Spu> querySpuById(@PathVariable("id") Long id) {
+        Spu spu = goodsService.querySpuById(id);
+        if (spu == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(spu);
     }
 }

@@ -1,7 +1,10 @@
 package com.mall.item.api;
 
+import com.mall.item.pojo.SpecGroup;
 import com.mall.item.pojo.SpecParam;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,4 +34,13 @@ public interface SpecificationApi {
             @RequestParam(value = "generic", required = false) Boolean generic,
             @RequestParam(value = "searching", required = false) Boolean searching
     );
+
+    /**
+     * 查询参数组和值(规格参数)
+     *
+     * @param cid 分类 id
+     * @return R
+     */
+    @GetMapping("group/param/{cid}")
+    List<SpecGroup> queryGroupsWithParam(@PathVariable("cid") Long cid);
 }

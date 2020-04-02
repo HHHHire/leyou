@@ -7,9 +7,8 @@ import com.mall.item.mapper.*;
 import com.mall.item.pojo.*;
 import com.mall.item.vo.SpuVO;
 import org.apache.commons.lang.StringUtils;
-import org.aspectj.apache.bcel.ExceptionConstants;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
@@ -38,13 +37,16 @@ public class GoodsService {
 
     private final CategoryService categoryService;
 
-    public GoodsService(SpuMapper spuMapper, SpuDetailMapper spuDetailMapper, BrandMapper brandMapper, CategoryService categoryService, SkuMapper skuMapper, StockMapper stockMapper) {
+    private final AmqpTemplate amqpTemplate;
+
+    public GoodsService(SpuMapper spuMapper, SpuDetailMapper spuDetailMapper, BrandMapper brandMapper, CategoryService categoryService, SkuMapper skuMapper, StockMapper stockMapper, AmqpTemplate amqpTemplate) {
         this.spuMapper = spuMapper;
         this.spuDetailMapper = spuDetailMapper;
         this.brandMapper = brandMapper;
         this.categoryService = categoryService;
         this.skuMapper = skuMapper;
         this.stockMapper = stockMapper;
+        this.amqpTemplate = amqpTemplate;
     }
 
 
@@ -110,6 +112,22 @@ public class GoodsService {
         spuDetailMapper.insertSelective(spuDetail);
 
         saveSkuAndStock(spuVO);
+
+        try {
+            sendMsg("insert", spuVO.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * rabbitmq 发送消息
+     *
+     * @param type 类型
+     * @param id   spuId
+     */
+    private void sendMsg(String type, Long id) {
+        amqpTemplate.convertAndSend("item." + type, id);
     }
 
     private void saveSkuAndStock(SpuVO spuVO) {
@@ -159,6 +177,7 @@ public class GoodsService {
 
     /**
      * 更新商品
+     *
      * @param spuVO 商品实体
      */
     @Transactional(rollbackFor = Exception.class)
@@ -186,5 +205,21 @@ public class GoodsService {
         spuVO.setValid(null);
         spuMapper.updateByPrimaryKeySelective(spuVO);
         spuDetailMapper.updateByPrimaryKeySelective(spuVO.getSpuDetail());
+
+        try {
+            sendMsg("update", spuVO.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 根据SpuId查询Spu
+     *
+     * @param id spuId
+     * @return Spu
+     */
+    public Spu querySpuById(Long id) {
+        return spuMapper.selectByPrimaryKey(id);
     }
 }

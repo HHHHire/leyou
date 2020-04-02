@@ -16,6 +16,9 @@
         <module>mall-common</module>
         <module>mall-upload</module>
         <module>mall-search</module>
+        <module>mall-goods-web</module>
+        <module>mall-user</module>
+        <module>mall-sms</module>
     </modules>
 
     <name>mall</name>

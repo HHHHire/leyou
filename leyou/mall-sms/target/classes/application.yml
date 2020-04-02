@@ -1,0 +1,16 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: sms-service
+  rabbitmq:
+    host: 47.100.88.162
+    username: mall
+    password: mall
+    virtual-host: /mall
+mall:
+  sms:
+    accessKeyId: LTAI4FuSaeQUHCaBaT2PUSe9
+    accessKeySecret: LCL9RK47Wq3fcWkPQZBIgS7W2e3E8E
+    signName: 油池系统
+    verifyCodeTemplate: SMS_187120160
